@@ -1,0 +1,10 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\VAR\csvif.py --input C:\Users\Tong\files\mscProject\code\test6\data\Middleware_oriented_message_Activity\monitoring_metrics_2.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Middleware_oriented_message_Activity\MoM_2/3\VAR_adj_lag3.txt --max_lags 3 --time C:\Users\Tong\files\mscProject\code\test6\result\Middleware_oriented_message_Activity\MoM_2/3\VAR_time_lag3.txt
+# GMT Mon Aug 25 22:53:02 2025
+# 
+ram_global_prct cpu_global_prct disk_io_read_mega_byte disk_io_write_mega_byte consumers_causality_1 messages_causality_1 publish_rate_causality_1
+cpu_global_prct disk_io_read_mega_byte disk_io_write_mega_byte consumers_causality_1 messages_causality_1 publish_rate_causality_1
+disk_io_read_mega_byte ram_global_prct cpu_global_prct disk_io_write_mega_byte consumers_causality_1 messages_causality_1 publish_rate_causality_1
+disk_io_write_mega_byte cpu_global_prct disk_io_read_mega_byte consumers_causality_1 messages_causality_1 publish_rate_causality_1
+consumers_causality_1 messages_causality_1 publish_rate_causality_1
+messages_causality_1
+publish_rate_causality_1 cpu_global_prct consumers_causality_1 messages_causality_1

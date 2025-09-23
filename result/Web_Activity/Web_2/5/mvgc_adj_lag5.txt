@@ -1,0 +1,13 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\mvgc\csvif.py --input C:\Users\Tong\files\mscProject\code\test6\data\Web_Activity\preprocessed_2.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Web_Activity\Web_2/5\mvgc_adj_lag5.txt --max_lags 5 --time C:\Users\Tong\files\mscProject\code\test6\result\Web_Activity\Web_2/5\mvgc_time_lag5.txt
+# GMT Sun Aug 24 23:37:54 2025
+# 
+Cpu_php Cpu_php Ram_http Net_Out_Global Nb_connection_mysql Nb_process_php Cpu_global Nb_process_http
+Net_In_Global Net_In_Global Net_Out_Global Nb_connection_mysql
+Disque_write_global Net_In_Global Disque_write_global Ram_http Net_Out_Global Nb_connection_mysql Cpu_http Nb_process_http
+Ram_http Cpu_php Ram_http Net_Out_Global Nb_connection_mysql Nb_process_php Cpu_http Cpu_global Nb_process_http
+Net_Out_Global Net_In_Global Disque_write_global Net_Out_Global Nb_connection_mysql Cpu_http
+Nb_connection_mysql Cpu_php Ram_http Nb_connection_mysql Nb_process_php Cpu_global Nb_process_http
+Nb_process_php Cpu_php Ram_http Nb_connection_mysql Nb_process_php Cpu_global Nb_process_http
+Cpu_http Net_In_Global Disque_write_global Ram_http Net_Out_Global Cpu_http Nb_process_http
+Cpu_global Cpu_php Ram_http Nb_connection_mysql Nb_process_php Cpu_global Nb_process_http
+Nb_process_http Cpu_php Ram_http Net_Out_Global Nb_connection_mysql Nb_process_php Cpu_http Cpu_global Nb_process_http

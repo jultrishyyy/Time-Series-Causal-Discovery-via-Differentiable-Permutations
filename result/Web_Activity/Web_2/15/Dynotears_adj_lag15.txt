@@ -1,0 +1,13 @@
+#C:\Users\Tong\files\mscProject\code\test7\algorithms\Dynotears\csvif.py --input C:\Users\Tong\files\mscProject\code\test7\data\Web_Activity\preprocessed_2.csv --output C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_2/15\Dynotears_adj_lag15.txt --max_lags 15 --time C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_2/15\Dynotears_time_lag15.txt
+# GMT Tue Sep 23 11:55:21 2025
+# 
+Cpu_php Disque_write_global Nb_connection_mysql Nb_process_php Cpu_global Nb_process_http
+Net_In_Global Disque_write_global Net_Out_Global Nb_connection_mysql Nb_process_http
+Disque_write_global
+Ram_http Disque_write_global Nb_process_http
+Net_Out_Global Net_In_Global Disque_write_global Nb_connection_mysql Nb_process_http
+Nb_connection_mysql Cpu_php Disque_write_global Nb_process_php Cpu_global Nb_process_http
+Nb_process_php Cpu_php Disque_write_global Nb_connection_mysql Cpu_global Nb_process_http
+Cpu_http Disque_write_global Nb_process_http
+Cpu_global Cpu_php Disque_write_global Nb_connection_mysql Nb_process_php Nb_process_http
+Nb_process_http Disque_write_global Ram_http Nb_connection_mysql Cpu_global

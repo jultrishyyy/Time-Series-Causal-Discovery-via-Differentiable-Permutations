@@ -1,0 +1,13 @@
+Results for Lag = 3
+
+F1
+,MoM 1,MoM 2,Ingestion,Web 1,Web 2,Antivirus 1,Antivirus 2
+sinkhorn,0.4000,0.3415,0.2769,0.3243,0.3243,0.1830,0.1875
+
+recall
+,MoM 1,MoM 2,Ingestion,Web 1,Web 2,Antivirus 1,Antivirus 2
+sinkhorn,0.8000,0.7000,1.0000,0.8571,0.8571,0.8750,0.7500
+
+precision
+,MoM 1,MoM 2,Ingestion,Web 1,Web 2,Antivirus 1,Antivirus 2
+sinkhorn,0.2667,0.2258,0.1607,0.2000,0.2000,0.1022,0.1071

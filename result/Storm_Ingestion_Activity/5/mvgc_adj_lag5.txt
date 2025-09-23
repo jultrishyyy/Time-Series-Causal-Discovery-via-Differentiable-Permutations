@@ -1,0 +1,11 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\mvgc\csvif.py --input C:\Users\Tong\files\mscProject\code\test6\data\Storm_Ingestion_Activity\storm_data_normal.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Storm_Ingestion_Activity\5\mvgc_adj_lag5.txt --max_lags 5 --time C:\Users\Tong\files\mscProject\code\test6\result\Storm_Ingestion_Activity\5\mvgc_time_lag5.txt
+# GMT Sun Aug 24 23:25:20 2025
+# 
+capacity_last_metric_bolt capacity_last_metric_bolt capacity_elastic_search_bolt check_message_bolt message_dispatcher_bolt metric_bolt group_status_information_bolt
+capacity_elastic_search_bolt capacity_elastic_search_bolt
+pre_Message_dispatcher_bolt pre_Message_dispatcher_bolt metric_bolt
+check_message_bolt check_message_bolt
+message_dispatcher_bolt check_message_bolt message_dispatcher_bolt
+metric_bolt check_message_bolt message_dispatcher_bolt metric_bolt
+group_status_information_bolt capacity_last_metric_bolt check_message_bolt message_dispatcher_bolt metric_bolt group_status_information_bolt
+Real_time_merger_bolt Real_time_merger_bolt

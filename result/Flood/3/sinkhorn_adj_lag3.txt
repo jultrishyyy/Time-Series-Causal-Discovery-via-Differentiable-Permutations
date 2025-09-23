@@ -1,0 +1,45 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\sinkhorn\csvif.py --mode unsupervised --random_seed 42 --input C:\Users\Tong\files\mscProject\code\test6\data\Flood\rivers_ts_flood_preprocessed.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Flood\3\sinkhorn_adj_unsupervised_lag3.txt --save_path C:\Users\Tong\files\mscProject\code\test6\result\Flood\3\sinkhorn_unsupervised_model_lag3.pth --weighted_edgelist C:\Users\Tong\files\mscProject\code\test6\result\Flood\3\sinkhorn_weight_unsupervised__lag3.txt --max_lags 3 --time C:\Users\Tong\files\mscProject\code\test6\result\Flood\3\sinkhorn_unsupervised_time_lag3.txt
+# GMT Sun Aug 31 14:43:53 2025
+# 
+59 257
+77
+119
+120
+152
+153
+174 175
+175 176
+176 175
+177 176
+257
+376
+377
+378
+393
+395 958
+398 569
+399 398
+431
+475
+546
+547
+569
+640 77 431 844 1072
+700 990
+701
+702 701
+706 547 1085
+709
+824
+844 431
+847
+956
+957 956
+958
+990
+1071
+1072
+1083 547 1086
+1084
+1085 546
+1086 547

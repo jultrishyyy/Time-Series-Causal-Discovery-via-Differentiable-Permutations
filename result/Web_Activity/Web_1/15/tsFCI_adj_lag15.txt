@@ -1,0 +1,13 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\tsFCI\csvif.py --input C:\Users\Tong\files\mscProject\code\test6\data\Web_Activity\preprocessed_1.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Web_Activity\Web_1/15\tsFCI_adj_lag15.txt --max_lags 15 --time C:\Users\Tong\files\mscProject\code\test6\result\Web_Activity\Web_1/15\tsFCI_time_lag15.txt
+# GMT Wed Aug 27 04:38:57 2025
+# 
+Cpu_php Cpu_php Ram_http
+Net_In_Global
+Disque_write_global
+Ram_http Ram_http Cpu_php Nb_connection_mysql Nb_process_php Cpu_http Cpu_global Nb_process_http
+Net_Out_Global
+Nb_connection_mysql Ram_http
+Nb_process_php Ram_http
+Cpu_http Cpu_http Ram_http
+Cpu_global Cpu_php Ram_http
+Nb_process_http Ram_http

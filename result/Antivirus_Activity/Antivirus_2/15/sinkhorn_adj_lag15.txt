@@ -1,0 +1,16 @@
+#C:\Users\Tong\files\mscProject\code\test7\algorithms\sinkhorn\csvif.py --random_seed 42 --input C:\Users\Tong\files\mscProject\code\test7\data\Antivirus_Activity\preprocessed_2.csv --output C:\Users\Tong\files\mscProject\code\test7\result\Antivirus_Activity\Antivirus_2/15\sinkhorn_adj_lag15.txt --save_path C:\Users\Tong\files\mscProject\code\test7\result\Antivirus_Activity\Antivirus_2/15\sinkhorn_model_lag15.pth --max_lags 15 --time C:\Users\Tong\files\mscProject\code\test7\result\Antivirus_Activity\Antivirus_2/15\sinkhorn_time_lag15.txt
+# GMT Tue Sep 23 12:16:18 2025
+# 
+memory_usage_Portal
+cpu_usage_Portal
+Physical_Memory_prct_used_Portal Chargement_portail Default_Transaction
+cpu_prct_used_Portal cpu_usage_Portal
+0_C_read_Portal
+memory_usage_VDI Chargement_IE
+cpu_usage_VDI 0_C_read_Portal cpu_prct_used_VDI
+Physical_Memory_prct_used_VDI cpu_prct_used_VDI
+cpu_prct_used_VDI cpu_usage_VDI
+0_C_read_VDI
+Chargement_portail Default_Transaction
+Chargement_IE
+Default_Transaction

@@ -1,0 +1,13 @@
+#C:\Users\Tong\files\mscProject\code\test7\algorithms\sinkhorn\csvif.py --random_seed 42 --input C:\Users\Tong\files\mscProject\code\test7\data\Web_Activity\preprocessed_1.csv --output C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_1/3\sinkhorn_adj_lag3.txt --save_path C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_1/3\sinkhorn_model_lag3.pth --max_lags 3 --time C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_1/3\sinkhorn_time_lag3.txt
+# GMT Tue Sep 23 14:25:28 2025
+# 
+Cpu_php Net_In_Global Ram_http Net_Out_Global Nb_connection_mysql Nb_process_php Cpu_http Cpu_global Nb_process_http
+Net_In_Global Disque_write_global Net_Out_Global
+Disque_write_global Net_In_Global Ram_http Net_Out_Global Nb_connection_mysql Cpu_http Cpu_global Nb_process_http
+Ram_http Net_In_Global Disque_write_global Net_Out_Global Nb_connection_mysql Nb_process_php Cpu_http Cpu_global Nb_process_http
+Net_Out_Global Disque_write_global
+Nb_connection_mysql Net_In_Global Disque_write_global Ram_http Net_Out_Global Cpu_http Cpu_global Nb_process_http
+Nb_process_php Cpu_php Net_In_Global Disque_write_global Ram_http Net_Out_Global Nb_connection_mysql Cpu_global Nb_process_http
+Cpu_http Net_In_Global Disque_write_global Net_Out_Global Cpu_global Nb_process_http
+Cpu_global Net_In_Global Disque_write_global Net_Out_Global Nb_connection_mysql Nb_process_php Cpu_http Nb_process_http
+Nb_process_http Net_In_Global Disque_write_global Ram_http Nb_connection_mysql Nb_process_php Cpu_http Cpu_global

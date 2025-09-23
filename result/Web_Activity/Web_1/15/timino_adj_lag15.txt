@@ -1,0 +1,13 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\timino\csvif.py --input C:\Users\Tong\files\mscProject\code\test6\data\Web_Activity\preprocessed_1.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Web_Activity\Web_1/15\timino_adj_lag15.txt --max_lags 15 --time C:\Users\Tong\files\mscProject\code\test6\result\Web_Activity\Web_1/15\timino_time_lag15.txt
+# GMT Tue Aug 26 22:02:57 2025
+# 
+Cpu_php
+Net_In_Global
+Disque_write_global
+Ram_http
+Net_Out_Global
+Nb_connection_mysql
+Nb_process_php
+Cpu_http
+Cpu_global
+Nb_process_http

@@ -1,0 +1,13 @@
+#C:\Users\Tong\files\mscProject\code\test7\algorithms\cMLP\csvif.py --input C:\Users\Tong\files\mscProject\code\test7\data\Web_Activity\preprocessed_1.csv --output C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_1/3\cMLP_adj_lag3.txt --max_lags 3 --time C:\Users\Tong\files\mscProject\code\test7\result\Web_Activity\Web_1/3\cMLP_time_lag3.txt
+# GMT Tue Sep 23 08:28:02 2025
+# 
+Cpu_php Cpu_php Ram_http Nb_connection_mysql Nb_process_php Cpu_global Nb_process_http
+Net_In_Global
+Disque_write_global Net_In_Global Net_Out_Global Nb_connection_mysql
+Ram_http Ram_http Cpu_php Nb_process_php Cpu_global Nb_process_http
+Net_Out_Global
+Nb_connection_mysql Nb_connection_mysql Cpu_http Nb_process_http
+Nb_process_php Nb_process_php Nb_connection_mysql
+Cpu_http Cpu_http Nb_connection_mysql
+Cpu_global Cpu_global Ram_http Nb_connection_mysql Nb_process_http
+Nb_process_http Nb_process_http Ram_http Cpu_http

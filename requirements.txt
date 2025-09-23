@@ -1,0 +1,13 @@
+causalnex==0.12.1
+graphviz==0.21
+helper==2.5.0 
+matplotlib==3.10.5
+networkx==3.4.2
+numpy==1.23.5
+pandas==1.5.3
+scikit_learn==1.7.2
+scipy==1.15.3
+semopy==2.3.11 
+statsmodels==0.14.5 
+torch==2.8.0 
+numba==0.60.0

@@ -1,0 +1,11 @@
+#C:\Users\Tong\files\mscProject\code\test6\algorithms\cMLP\csvif.py --input C:\Users\Tong\files\mscProject\code\test6\data\Storm_Ingestion_Activity\storm_data_normal.csv --output C:\Users\Tong\files\mscProject\code\test6\result\Storm_Ingestion_Activity\15\cMLP_adj_lag15.txt --max_lags 15 --time C:\Users\Tong\files\mscProject\code\test6\result\Storm_Ingestion_Activity\15\cMLP_time_lag15.txt
+# GMT Tue Aug 26 23:53:19 2025
+# 
+capacity_last_metric_bolt capacity_last_metric_bolt capacity_elastic_search_bolt group_status_information_bolt
+capacity_elastic_search_bolt capacity_elastic_search_bolt
+pre_Message_dispatcher_bolt pre_Message_dispatcher_bolt metric_bolt
+check_message_bolt check_message_bolt Real_time_merger_bolt
+message_dispatcher_bolt message_dispatcher_bolt
+metric_bolt metric_bolt check_message_bolt message_dispatcher_bolt Real_time_merger_bolt
+group_status_information_bolt group_status_information_bolt capacity_last_metric_bolt capacity_elastic_search_bolt Real_time_merger_bolt
+Real_time_merger_bolt Real_time_merger_bolt
