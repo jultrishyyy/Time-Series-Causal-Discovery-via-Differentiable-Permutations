@@ -131,10 +131,10 @@ python algorithms/<algorithm_name>/csvif.py --input <path_to_data.csv> --output 
 **Example: Running Our Proposed Method**
 
 ```bash
-python algorithms/sinkhorn/csvif.py \
-  --input data/Middleware_oriented_message_Activity/monitoring_metrics_1.csv \
-  --output result/Middleware_oriented_message_Activity/MoM_1/sinkhorn_adj_lag3.txt \
-  --save_path result/Middleware_oriented_message_Activity/MoM_1/sinkhorn_model_lag3.pth \
+python algorithms/sinkhorn/csvif.py
+  --input data/Middleware_oriented_message_Activity/monitoring_metrics_1.csv
+  --output result/Middleware_oriented_message_Activity/MoM_1/sinkhorn_adj_lag3.txt
+  --save_path result/Middleware_oriented_message_Activity/MoM_1/sinkhorn_model_lag3.pth
   --time result/Middleware_oriented_message_Activity/MoM_1/sinkhorn_time_lag3.txt
 ```
 
