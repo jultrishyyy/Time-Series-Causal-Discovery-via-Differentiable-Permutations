@@ -10,6 +10,10 @@ import torch.nn as nn
 import numpy as np
 from copy import deepcopy
 
+# --- Automatic device selection (CPU / GPU) ---
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
 class LSTM(nn.Module):
     """
     LSTM model with an output layer to generate predictions for a single series.
@@ -21,6 +25,9 @@ class LSTM(nn.Module):
         self.lstm = nn.LSTM(num_series, hidden, batch_first=True)
         self.lstm.flatten_parameters()
         self.linear = nn.Conv1d(hidden, 1, 1)
+
+        # Move model to the default device (GPU if available, otherwise CPU)
+        self.to(DEVICE)
 
     def init_hidden(self, batch):
         """Initialize hidden states for LSTM cell."""
@@ -36,6 +43,7 @@ class LSTM(nn.Module):
         X = self.linear(X)
         return X.transpose(2, 1), hidden
 
+
 class cLSTM(nn.Module):
     """
     cLSTM model with one LSTM per time series.
@@ -45,7 +53,11 @@ class cLSTM(nn.Module):
         self.p = num_series
         self.hidden = hidden
         self.networks = nn.ModuleList([
-            LSTM(num_series, hidden) for _ in range(num_series)])
+            LSTM(num_series, hidden) for _ in range(num_series)
+        ])
+
+        # Ensure the whole container module is on the default device as well
+        self.to(DEVICE)
 
     def forward(self, X, hidden=None):
         if hidden is None:
@@ -73,29 +85,35 @@ class cLSTM(nn.Module):
         else:
             return GC
 
+
 # --- Helper and Training Functions ---
 
 def prox_update(network, lam, lr):
     """Perform in-place proximal update on first layer weight matrix."""
     W = network.lstm.weight_ih_l0
     norm = torch.norm(W, dim=0, keepdim=True)
-    W.data = ((W / torch.clamp(norm, min=(lam * lr))) * torch.clamp(norm - (lr * lam), min=0.0))
+    W.data = ((W / torch.clamp(norm, min=(lam * lr))) *
+              torch.clamp(norm - (lr * lam), min=0.0))
     network.lstm.flatten_parameters()
+
 
 def regularize(network, lam):
     """Calculate group sparsity regularization term."""
     W = network.lstm.weight_ih_l0
     return lam * torch.sum(torch.norm(W, dim=0))
 
+
 def ridge_regularize(network, lam):
     """Apply ridge penalty at linear layer and hidden-hidden weights."""
     return lam * (torch.sum(network.linear.weight ** 2) +
                   torch.sum(network.lstm.weight_hh_l0 ** 2))
 
+
 def restore_parameters(model, best_model):
     """Move parameter values from best_model to model."""
     for params, best_params in zip(model.parameters(), best_model.parameters()):
         params.data = best_params
+
 
 def arrange_input(data, context):
     """
@@ -113,6 +131,7 @@ def arrange_input(data, context):
         target[:, i, :] = data[start+1:end+1]
     return input_data.detach(), target.detach()
 
+
 def train_model_gista(clstm, X, context, lam, lam_ridge, lr, max_iter,
                       check_every=50, r=0.8, lr_min=1e-8, sigma=0.5,
                       monotone=False, m=10, lr_decay=0.5,
@@ -121,6 +140,11 @@ def train_model_gista(clstm, X, context, lam, lam_ridge, lr, max_iter,
     Train cLSTM model with GISTA (Gradient ISTA).
     """
     p = clstm.p
+
+    # Ensure data is on the same device as the model (automatic CPU/GPU handling)
+    model_device = next(clstm.parameters()).device
+    X = [x.to(model_device) for x in X]
+
     clstm_copy = deepcopy(clstm)
     loss_fn = nn.MSELoss(reduction='mean')
     lr_list = [lr for _ in range(p)]
@@ -186,7 +210,7 @@ def train_model_gista(clstm, X, context, lam, lam_ridge, lr, max_iter,
                 with torch.no_grad():
                     loss = smooth + regularize(net_copy, lam)
                     tol = (0.5 * sigma / lr_it) * sum(
-                        [torch.sum((p - t) ** 2) for p, t in zip(net.parameters(), net_copy.parameters())])
+                        [torch.sum((p_ - t_) ** 2) for p_, t_ in zip(net.parameters(), net_copy.parameters())])
                 
                 comp = loss_list[i] if monotone else max(last_losses[i])
                 if not line_search or (comp - loss) > tol:
@@ -207,7 +231,8 @@ def train_model_gista(clstm, X, context, lam, lam_ridge, lr, max_iter,
                         new_mse_list.append(mse_list[i])
                         new_smooth_list.append(smooth_list[i])
                         new_loss_list.append(loss_list[i])
-                        if verbose > 0: print(f'Network {i + 1} converged')
+                        if verbose > 0:
+                            print(f'Network {i + 1} converged')
                         break
             
             net.zero_grad()
@@ -217,7 +242,8 @@ def train_model_gista(clstm, X, context, lam, lam_ridge, lr, max_iter,
         mse_list, smooth_list, loss_list = new_mse_list, new_smooth_list, new_loss_list
 
         if sum(done) == p:
-            if verbose > 0: print(f'Done at iteration = {it + 1}')
+            if verbose > 0:
+                print(f'Done at iteration = {it + 1}')
             break
 
         if (it + 1) % check_every == 0:
@@ -234,6 +260,7 @@ def train_model_gista(clstm, X, context, lam, lam_ridge, lr, max_iter,
 
             if not line_search and train_loss_list[-2] - train_loss_list[-1] < switch_tol:
                 line_search = True
-                if verbose > 0: print('Switching to line search')
+                if verbose > 0:
+                    print('Switching to line search')
 
     return train_loss_list, train_mse_list
