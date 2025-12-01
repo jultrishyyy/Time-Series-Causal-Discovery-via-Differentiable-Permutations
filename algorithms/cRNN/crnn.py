@@ -10,6 +10,10 @@ import torch.nn as nn
 import numpy as np
 from copy import deepcopy
 
+# --- Automatic device selection (CPU / GPU) ---
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
 class RNN(nn.Module):
     """
     A single Recurrent Neural Network with an output layer to generate predictions.
@@ -22,6 +26,9 @@ class RNN(nn.Module):
                           batch_first=True)
         self.rnn.flatten_parameters()
         self.linear = nn.Conv1d(hidden, 1, 1)
+
+        # Move this network to default device (GPU if available)
+        self.to(DEVICE)
 
     def init_hidden(self, batch):
         """Initialize hidden states for RNN cell."""
@@ -36,6 +43,7 @@ class RNN(nn.Module):
         X = self.linear(X)
         return X.transpose(2, 1), hidden
 
+
 class cRNN(nn.Module):
     """
     cRNN model with one RNN per time series.
@@ -45,7 +53,11 @@ class cRNN(nn.Module):
         self.p = num_series
         self.hidden = hidden
         self.networks = nn.ModuleList([
-            RNN(num_series, hidden, nonlinearity) for _ in range(num_series)])
+            RNN(num_series, hidden, nonlinearity) for _ in range(num_series)
+        ])
+
+        # Ensure the whole model is on the default device
+        self.to(DEVICE)
 
     def forward(self, X, hidden=None):
         if hidden is None:
@@ -68,6 +80,7 @@ class cRNN(nn.Module):
             return (GC > 0).int()
         return GC
 
+
 # --- Helper and Training Functions ---
 
 def prox_update(network, lam, lr):
@@ -78,20 +91,24 @@ def prox_update(network, lam, lr):
               * torch.clamp(norm - (lr * lam), min=0.0))
     network.rnn.flatten_parameters()
 
+
 def regularize(network, lam):
     """Calculate group sparsity regularization term."""
     W = network.rnn.weight_ih_l0
     return lam * torch.sum(torch.norm(W, dim=0))
+
 
 def ridge_regularize(network, lam):
     """Apply ridge penalty at linear layer and hidden-hidden weights."""
     return lam * (torch.sum(network.linear.weight ** 2) +
                   torch.sum(network.rnn.weight_hh_l0 ** 2))
 
+
 def restore_parameters(model, best_model):
     """Move parameter values from best_model to model."""
     for params, best_params in zip(model.parameters(), best_model.parameters()):
         params.data = best_params
+
 
 def arrange_input(data, context):
     """
@@ -109,6 +126,7 @@ def arrange_input(data, context):
         target[:, i, :] = data[start+1:end+1]
     return input_data.detach(), target.detach()
 
+
 def train_model_gista(crnn, X, context, lam, lam_ridge, lr, max_iter,
                       check_every=50, r=0.8, lr_min=1e-8, sigma=0.5,
                       monotone=False, m=10, lr_decay=0.5,
@@ -117,6 +135,11 @@ def train_model_gista(crnn, X, context, lam, lam_ridge, lr, max_iter,
     Train cRNN model with GISTA (Gradient ISTA).
     """
     p = crnn.p
+
+    # Ensure input data is on the same device as the model
+    model_device = next(crnn.parameters()).device
+    X = [x.to(model_device) for x in X]
+
     crnn_copy = deepcopy(crnn)
     loss_fn = nn.MSELoss(reduction='mean')
     lr_list = [lr for _ in range(p)]
@@ -178,7 +201,8 @@ def train_model_gista(crnn, X, context, lam, lam_ridge, lr, max_iter,
                 with torch.no_grad():
                     loss = smooth + regularize(net_copy, lam)
                     tol = (0.5 * sigma / lr_it) * sum(
-                        [torch.sum((p - t) ** 2) for p, t in zip(net.parameters(), net_copy.parameters())])
+                        [torch.sum((p_ - t_) ** 2) for p_, t_ in zip(net.parameters(), net_copy.parameters())]
+                    )
                 
                 comp = loss_list[i] if monotone else max(last_losses[i])
                 if not line_search or (comp - loss) > tol:
@@ -198,7 +222,8 @@ def train_model_gista(crnn, X, context, lam, lam_ridge, lr, max_iter,
                         new_mse_list.append(mse_list[i])
                         new_smooth_list.append(smooth_list[i])
                         new_loss_list.append(loss_list[i])
-                        if verbose > 0: print(f'Network {i + 1} converged')
+                        if verbose > 0:
+                            print(f'Network {i + 1} converged')
                         break
             
             net.zero_grad()
@@ -208,7 +233,8 @@ def train_model_gista(crnn, X, context, lam, lam_ridge, lr, max_iter,
         mse_list, smooth_list, loss_list = new_mse_list, new_smooth_list, new_loss_list
 
         if sum(done) == p:
-            if verbose > 0: print(f'All networks converged at iteration {it + 1}')
+            if verbose > 0:
+                print(f'All networks converged at iteration {it + 1}')
             break
 
         if (it + 1) % check_every == 0:
@@ -225,6 +251,7 @@ def train_model_gista(crnn, X, context, lam, lam_ridge, lr, max_iter,
 
             if not line_search and train_loss_list[-2] - train_loss_list[-1] < switch_tol:
                 line_search = True
-                if verbose > 0: print('Switching to line search')
+                if verbose > 0:
+                    print('Switching to line search')
 
     return train_loss_list, train_mse_list
