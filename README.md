@@ -116,7 +116,8 @@ The `final_results_lag<lag_setting>.csv` file under `result/` contains a table o
 
 > **Note:** We uncomment our method and the MOM1 dataset with lag 3 for users to test if they can run it in their environment, which will generate a `test.csv` file reporting the result. To customize which datasets or methods to run, simply edit the `paths`, `methods_to_run`, and `lags_to_test` lists inside `run.py`.
 
-> **Note:** Some methods may generate different results in each run (e.g., TiMINO, which uses a heuristic search). Thus, results for those methods may not be consistent with our paper. However, we use fixed random seeds in our method, so results for our method are consistent as shown in the paper.
+> **Note:** Some baseline methods may produce different results across runs (e.g., TiMINO, which involves heuristic or stochastic search), and therefore their outputs may not exactly match the numbers reported in the paper.
+For our method, we use fixed random seeds to improve reproducibility. Under the same software and hardware environment, our implementation yields consistent results with those reported in the paper. However, due to inherent numerical differences across hardware platforms and deep learning libraries, slight variations may still occur in different computing environments.
 
 ### Run a Specific Algorithm
 
