@@ -25,7 +25,7 @@ def process_running_times():
         'VAR': 'VAR', 'mvgc': 'mvgc', 'cLSTM': 'cLSTM', 'cMLP': 'cMLP',
         'cRNN': 'cRNN', 'TCDF': 'TCDF', 'pcmci': 'pcmci', 'tsFCI': 'tsFCI',
         'pcgce': 'pcgce', 'Dynotears': 'Dynotears', 'VARLiNGAM': 'varlingam',
-        'TiMiNo': 'timino', 'our_method': 'sinkhorn_unsupervised'
+        'TiMiNo': 'timino', 'our_method': 'sinkhorn'
     }
 
     # IMPORTANT: Map your FOLDER names to the desired CSV COLUMN names.
