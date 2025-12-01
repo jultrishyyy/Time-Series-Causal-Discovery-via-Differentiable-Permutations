@@ -10,6 +10,10 @@ import torch.nn as nn
 import numpy as np
 from copy import deepcopy
 
+# --- Automatic device selection (CPU / GPU) ---
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
 def activation_helper(activation):
     """Helper to get activation function from string."""
     if activation == 'sigmoid':
@@ -25,6 +29,7 @@ def activation_helper(activation):
     else:
         raise ValueError(f'unsupported activation: {activation}')
 
+
 class MLP(nn.Module):
     """
     A single Multi-Layer Perceptron for predicting one time series.
@@ -38,6 +43,9 @@ class MLP(nn.Module):
             modules.append(nn.Conv1d(d_in, d_out, 1))
         self.layers = nn.ModuleList(modules)
 
+        # Move this network to default device (GPU if available)
+        self.to(DEVICE)
+
     def forward(self, X):
         X = X.transpose(2, 1)
         for i, fc in enumerate(self.layers):
@@ -45,6 +53,7 @@ class MLP(nn.Module):
                 X = self.activation(X)
             X = fc(X)
         return X.transpose(2, 1)
+
 
 class cMLP(nn.Module):
     """
@@ -56,7 +65,11 @@ class cMLP(nn.Module):
         self.lag = lag
         self.networks = nn.ModuleList([
             MLP(num_series, lag, hidden, activation)
-            for _ in range(num_series)])
+            for _ in range(num_series)
+        ])
+
+        # Ensure the whole model is on the default device
+        self.to(DEVICE)
 
     def forward(self, X):
         return torch.cat([network(X) for network in self.networks], dim=2)
@@ -73,6 +86,7 @@ class cMLP(nn.Module):
         if threshold:
             return (GC > 0).int()
         return GC
+
 
 # --- Helper and Training Functions ---
 
@@ -94,10 +108,13 @@ def prox_update(network, lam, lr, penalty):
     elif penalty == 'H':
         for i in range(lag):
             norm = torch.norm(W[:, :, :(i + 1)], dim=(0, 2), keepdim=True)
-            W.data[:, :, :(i+1)] = ((W.data[:, :, :(i+1)] / torch.clamp(norm, min=(lr * lam)))
-                                   * torch.clamp(norm - (lr * lam), min=0.0))
+            W.data[:, :, :(i+1)] = (
+                (W.data[:, :, :(i+1)] / torch.clamp(norm, min=(lr * lam)))
+                * torch.clamp(norm - (lr * lam), min=0.0)
+            )
     else:
         raise ValueError(f'unsupported penalty: {penalty}')
+
 
 def regularize(network, lam, penalty):
     """Calculate the regularization term for the first layer weight matrix."""
@@ -114,14 +131,17 @@ def regularize(network, lam, penalty):
     else:
         raise ValueError(f'unsupported penalty: {penalty}')
 
+
 def ridge_regularize(network, lam):
     """Apply ridge penalty to all subsequent layers."""
     return lam * sum([torch.sum(fc.weight ** 2) for fc in network.layers[1:]])
+
 
 def restore_parameters(model, best_model):
     """Move parameter values from best_model to model."""
     for params, best_params in zip(model.parameters(), best_model.parameters()):
         params.data = best_params
+
 
 def train_model_gista(cmlp, X, lam, lam_ridge, lr, penalty, max_iter,
                       check_every=100, r=0.8, lr_min=1e-8, sigma=0.5,
@@ -132,6 +152,11 @@ def train_model_gista(cmlp, X, lam, lam_ridge, lr, penalty, max_iter,
     """
     p = cmlp.p
     lag = cmlp.lag
+
+    # Ensure input data is on the same device as the model
+    model_device = next(cmlp.parameters()).device
+    X = X.to(model_device)
+
     cmlp_copy = deepcopy(cmlp)
     loss_fn = nn.MSELoss(reduction='mean')
     lr_list = [lr for _ in range(p)]
@@ -187,7 +212,8 @@ def train_model_gista(cmlp, X, lam, lam_ridge, lr, penalty, max_iter,
                 with torch.no_grad():
                     loss = smooth + regularize(net_copy, lam, penalty)
                     tol = (0.5 * sigma / lr_it) * sum(
-                        [torch.sum((p - t) ** 2) for p, t in zip(net.parameters(), net_copy.parameters())])
+                        [torch.sum((p_ - t_) ** 2) for p_, t_ in zip(net.parameters(), net_copy.parameters())]
+                    )
                 
                 comp = loss_list[i] if monotone else max(last_losses[i])
                 if not line_search or (comp - loss) > tol:
@@ -207,7 +233,8 @@ def train_model_gista(cmlp, X, lam, lam_ridge, lr, penalty, max_iter,
                         new_mse_list.append(mse_list[i])
                         new_smooth_list.append(smooth_list[i])
                         new_loss_list.append(loss_list[i])
-                        if verbose > 0: print(f'Network {i + 1} converged')
+                        if verbose > 0:
+                            print(f'Network {i + 1} converged')
                         break
             
             net.zero_grad()
@@ -217,7 +244,8 @@ def train_model_gista(cmlp, X, lam, lam_ridge, lr, penalty, max_iter,
         mse_list, smooth_list, loss_list = new_mse_list, new_smooth_list, new_loss_list
 
         if sum(done) == p:
-            if verbose > 0: print(f'All networks converged at iteration {it + 1}')
+            if verbose > 0:
+                print(f'All networks converged at iteration {it + 1}')
             break
 
         if (it + 1) % check_every == 0:
@@ -234,6 +262,7 @@ def train_model_gista(cmlp, X, lam, lam_ridge, lr, penalty, max_iter,
 
             if not line_search and train_loss_list[-2] - train_loss_list[-1] < switch_tol:
                 line_search = True
-                if verbose > 0: print('Switching to line search')
+                if verbose > 0:
+                    print('Switching to line search')
                 
     return train_loss_list, train_mse_list
